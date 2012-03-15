@@ -1,0 +1,11 @@
+*~
+Makefile
+PAL.bs
+blib
+pm_to_blib
+_build
+Build
+src/*.o
+lib/Astro/PAL.o
+lib/Astro/PAL.c
+.#*

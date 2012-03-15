@@ -1,0 +1,59 @@
+Astro::PAL -- interface to Starlink PAL C library
+==========
+
+This module provides an interface layer to the Starlink PAL positional
+astronomy library.
+
+An example program, stime, is provided. This simply reports the
+current time (modified Julian day and local sidereal time for the JCMT).
+
+Requirements:
+-------------
+
+A C compiler is required and, currently, the PAL library should be installed.
+The PAL library comes with the Starlink distribution (www.starlink.ac.uk).
+
+
+Installation:
+-------------
+
+  % perl Build.PL
+  % ./Build
+  % ./Build test
+  % ./Build install
+
+The tests only test part of the build. Some functions remain untested.
+
+See Astro::Coords for a general object-oriented wrapper around Astro::PAL.
+
+Documentation:
+--------------
+
+The module provides documentation on how to use the perl interface
+to PAL. It does not contain information on how to use
+PAL itself. For more information on on PAL using the SLA documentation see:
+
+  http://www.starlink.ac.uk/star/docs/sun67.htx/sun67.html
+
+
+Copyright
+---------
+
+Copyright (C) 2012 Tim Jenness and the Science and Technology Facilities
+Council. All rights reserved.
+
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation; either version 3 of the License, or (at your option) any later
+version.
+
+This program is distributed in the hope that it will be useful,but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place,Suite 330, Boston, MA  02111-1307, USA
+
+The array handling code was written by Karl Glazebrook.
+
