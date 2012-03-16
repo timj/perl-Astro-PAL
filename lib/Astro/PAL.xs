@@ -30,7 +30,7 @@
 #include "XSUB.h"     /* XSUB include */
 
 
-#include "star/pal.h"
+#include "pal.h"
 #include "arrays.h"
 
 /* macros to return C arrays of fixed size to list on stack */
