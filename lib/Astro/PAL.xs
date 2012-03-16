@@ -679,7 +679,7 @@ palEpv( date )
   AV * pph;
   AV * pvh;
   AV * ppb;
-  AV *pvb;
+  AV * pvb;
  PPCODE:
   palEpv( date, ph, vh, pb, vb );
 
@@ -689,7 +689,7 @@ palEpv( date )
   pvh = newAV();
   unpack1D( newRV_noinc((SV*)pvh), vh, 'd', 3 );
   XPUSHs( newRV_noinc((SV*)pvh));
-  pvh = newAV();
+  ppb = newAV();
   unpack1D( newRV_noinc((SV*)ppb), pb, 'd', 3 );
   XPUSHs( newRV_noinc((SV*)ppb));
   pvb = newAV();
