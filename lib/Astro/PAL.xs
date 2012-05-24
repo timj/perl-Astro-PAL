@@ -853,6 +853,17 @@ palGalsup(dl, db)
   XPUSHs(sv_2mortal(newSVnv(dsl)));
   XPUSHs(sv_2mortal(newSVnv(dsb)));
 
+void
+palGe50( dl, db )
+  double dl
+  double db
+ PREINIT:
+  double dr;
+  double dd;
+ PPCODE:
+  palGe50(dl, db, &dr, &dd);
+  XPUSHs(sv_2mortal(newSVnv(dr)));
+  XPUSHs(sv_2mortal(newSVnv(dd)));
 
 void
 palGeoc(p, h)
