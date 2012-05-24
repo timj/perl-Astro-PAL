@@ -6,6 +6,9 @@
 *  Purpose:
 *     File containing simple PAL wrappers for SLA routines that are identical in SOFA
 
+*  Invocation:
+*     Matches SLA API
+
 *  Language:
 *     Starlink ANSI C
 
@@ -16,9 +19,44 @@
 *     Some SOFA routines are identical to their SLA counterparts. PAL provides
 *     direct counterparts to these although it is generally a better idea to
 *     use the SOFA routine directly in new code.
+*
+*     The PAL routines with direct equivalents in SOFA are:
+*     - palCldj
+*     - palDbear
+*     - palDaf2r
+*     - palDav2m
+*     - palDcc2s
+*     - palDcs2c
+*     - palDd2tf
+*     - palDimxv
+*     - palDm2av
+*     - palDjcl
+*     - palDmxm
+*     - palDmxv
+*     - palDpav
+*     - palDr2af
+*     - palDr2tf
+*     - palDranrm
+*     - palDsep
+*     - palDsepv
+*     - palDtf2d
+*     - palDtf2r
+*     - palDvdv
+*     - palDvn
+*     - palDvxv
+*     - palEpb
+*     - palEpb2d
+*     - palEpj
+*     - palEpj2d
+*     - palEqeqx
+*     - palFk5hz
+*     - palGmst
+*     - palGmsta
+*     - palHfk5z
 
 *  Authors:
 *     TIMJ: Tim Jenness (JAC, Hawaii)
+*     DSB: David S Berry (JAC, Hawaii)
 *     {enter_new_authors_here}
 
 *  Notes:
@@ -29,11 +67,15 @@
 *       version instead of the SOFA version.
 *     - Routines that take MJDs have SOFA equivalents that have an explicit
 *       MJD offset included.
-*     - palGmst uses the IAU 2006 precession.
+*     - palEqeqx, palGmst and palGmsta use the IAU 2006 precession model.
 
 *  History:
 *     2012-02-10 (TIMJ):
 *        Initial version
+*     2012-03-23 (TIMJ):
+*        Update prologue.
+*     2012-05-09 (DSBJ):
+*        Move palDrange into a separate file.
 *     {enter_further_changes_here}
 
 *  Copyright:
@@ -127,10 +169,6 @@ void palDr2af ( int ndp, double angle, char *sign, int idmsf[4] ) {
 
 void palDr2tf( int ndp, double angle, char *sign, int ihmsf[4] ) {
   iauA2tf( ndp, angle, sign, ihmsf );
-}
-
-double palDrange ( double angle ) {
-  return iauAnpm( angle );
 }
 
 double palDranrm ( double angle ) {
