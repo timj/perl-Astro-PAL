@@ -10,9 +10,8 @@ current time (modified Julian day and local sidereal time for the JCMT).
 Requirements:
 -------------
 
-A C compiler is required and, currently, the PAL library should be installed.
-The PAL library comes with the Starlink distribution (www.starlink.ac.uk).
-
+A C compiler is required but the SOFA and PAL source code are included
+with the distribution and will be built automatically.
 
 Installation:
 -------------
@@ -31,7 +30,14 @@ Documentation:
 
 The module provides documentation on how to use the perl interface
 to PAL. It does not contain information on how to use
-PAL itself. For more information on on PAL using the SLA documentation see:
+PAL itself.
+
+The basic PAL documentation can be found at
+
+ http://www.starlink.ac.uk/star/docs/sun267.htx/sun267.html
+
+For more information the SLA documentation provides much more
+detail:
 
   http://www.starlink.ac.uk/star/docs/sun67.htx/sun67.html
 

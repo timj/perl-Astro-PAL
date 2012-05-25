@@ -9,7 +9,7 @@ my $build = Module::Build->new
   (
    module_name => "Astro::PAL",
    abstract_from => $file,
-   license => "gpl3",
+   license => "gpl",
    author => [
               'Tim Jenness <tjenness@cpan.org>',
              ],
@@ -30,7 +30,7 @@ my $build = Module::Build->new
    build_requires => {
                       "Test::More" => 0,
                      },
-   c_source => ["src","sofasrc","palsrc"],  # Only one option so use single string
+   c_source => ["src","sofasrc","palsrc"],
    extra_compiler_flags => "-DNOSTARUTIL",
   );
 
