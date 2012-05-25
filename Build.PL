@@ -30,6 +30,9 @@ my $build = Module::Build->new
    build_requires => {
                       "Test::More" => 0,
                      },
+   configure_requires => {
+                          "Module::Build" => 0.3604, # c_source as array ref
+                         },
    c_source => ["src","sofasrc","palsrc"],
    extra_compiler_flags => "-DNOSTARUTIL",
   );
