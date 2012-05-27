@@ -63,3 +63,9 @@ Place,Suite 330, Boston, MA  02111-1307, USA
 
 The array handling code was written by Karl Glazebrook.
 
+Version History
+---------------
+
+1.00 Initial release
+
+1.01 Fix MANIFEST of distribution to include PAL and SOFA source code.
