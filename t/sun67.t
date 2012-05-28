@@ -60,8 +60,7 @@ print "# Section 4.1.1 - Formatting angles\n";
     ($i, $dx, my $j) = Astro::PAL::palDfltin($string, $i);
     # Double precision fortran-style exponent not recognized by perl
     $tst =~ s/D/E/g;
-    $tst = $tst + 0; # Force numify of exponent form
-    is($tst,$dx, "Compare input with parsed float");
+    isnum( $dx, $tst, "%5g", "Compare input with parsed float");
     if ($tst >= 0) {
       is($j,0,"Status from float parse");
     } else {
@@ -463,4 +462,12 @@ sub r2decsex {
   my $np = (defined $nparg ? $nparg : 2);
   my ($sign, @ihmsf) = Astro::PAL::palDr2af($np,$dec);
   return sprintf("%1s%02d %02d %02d.%0".$np."d",$sign,@ihmsf);
+}
+
+# Compare float using supplied format string
+sub isnum {
+  my ($totest, $ref, $fmt, $msg) = @_;
+  my $refstr = sprintf($fmt, $ref);
+  my $toteststr = sprintf($fmt, $totest);
+  is( $toteststr, $refstr, $msg ." (comparing $totest to $ref)");
 }

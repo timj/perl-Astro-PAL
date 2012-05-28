@@ -69,3 +69,5 @@ Version History
 1.00 Initial release
 
 1.01 Fix MANIFEST of distribution to include PAL and SOFA source code.
+
+1.02 Fix floating point comparisons in sun67.t
