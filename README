@@ -71,3 +71,6 @@ Version History
 1.01 Fix MANIFEST of distribution to include PAL and SOFA source code.
 
 1.02 Fix floating point comparisons in sun67.t
+
+1.03 Update PAL to v0.1.2. Avoid using the C99 copysign() function
+     on Solaris.
