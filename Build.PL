@@ -4,18 +4,6 @@ use warnings;
 use File::Spec;
 use Module::Build;
 
-
-# Try to decide whether to build with copysign() enabled.
-# Solaris systems on CPAN testers do not enable C99 features.
-# Another option would be to try to guess whether we can add the C99
-# compiler flags directly.
-# This is a bit of a hack.
-my $d_copysign = "-DHAVE_COPYSIGN=1";
-if ($^O eq 'solaris') {
-  $d_copysign = '';
-}
-
-
 my $file = File::Spec->catfile( "lib", "Astro", "PAL.pm" );
 my $build = Module::Build->new
   (
@@ -46,7 +34,7 @@ my $build = Module::Build->new
                           "Module::Build" => 0.3604, # c_source as array ref
                          },
    c_source => ["src","sofasrc","palsrc"],
-   extra_compiler_flags => "-DNOSTARUTIL=1 $d_copysign",
+   extra_compiler_flags => "-DNOSTARUTIL=1",
   );
 
 $build->create_build_script;
