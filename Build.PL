@@ -29,6 +29,7 @@ my $build = Module::Build->new
                },
    build_requires => {
                       "Test::More" => 0,
+                      "Test::Number::Delta" => 1.00,
                      },
    configure_requires => {
                           "Module::Build" => 0.3604, # c_source as array ref
