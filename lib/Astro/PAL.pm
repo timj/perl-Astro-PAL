@@ -46,6 +46,11 @@ $VERSION = '1.05';
                             palAirmas
                             palAmp
                             palAmpqk
+                            palAop
+                            palAoppa
+                            palAoppat
+                            palAopqk
+                            palAtmdsp
                             palCaldj
                             palCldj
                             palDaf2r
@@ -112,6 +117,8 @@ $VERSION = '1.05';
                             palMapqkz
                             palNut
                             palNutc
+                            palOap
+                            palOapqk
                             palObs
                             palPa
                             palPertel
@@ -126,6 +133,11 @@ $VERSION = '1.05';
                             palPrenut
                             palPvobs
                             palRdplan
+                            palRefco
+                            palRefcoq
+                            palRefro
+                            palRefv
+                            palRefz
                             palRverot
                             palRvgalc
                             palRvlg
@@ -196,6 +208,15 @@ to arrays:
  @rmatn = palNut( $djtt );
  @mposr = palDmxv( \@rmatn, \@mpos );
 
+See the PAL or SLALIB documentation for details of the functions
+themselves.
+
+=head3 Anomalies
+
+=over 4
+
+=item palObs
+
 palObs is special in that it returns an empty list if the return
 status is bad. Additionally, palObs is called with a single
 argument and the behaviour depends on whether the argument looks
@@ -203,10 +224,6 @@ like an integer or a string.
 
  ($ident, $name, $w, $p, $h) = palObs( 27 );
  ($ident, $name, $w, $p, $h) = palObs( "JCMT" );
-
-
-See the PAL or SLALIB documentation for details of the functions
-themselves.
 
 =cut
 
@@ -229,6 +246,72 @@ sub palObs {
   return _palObs( $n, $c );
 }
 
+=item palAopqk
+
+palAopqk can be called either with a reference to an
+array or a list
+
+  @results = palAopqk( $rap, $dap, @aoprms );
+  @results = palAopqk( $rap, $dap, \@aoprms );
+
+=cut
+
+# Sanity check argument counting before passing to XS layer
+
+sub palAopqk {
+  my $rap = shift;
+  my $dap = shift;
+
+  my @aoprms;
+  if (@_ > 1) {
+    @aoprms = @_;
+  } else {
+    @aoprms = @{$_[0]};
+  }
+  croak "palAopqk: Need 14 elements in star-independent apparent to observed array"
+    unless @aoprms == 14;
+
+  return pal_Aopqk( $rap, $dap, \@aoprms );
+}
+
+=item palAoppat
+
+For the C API the calling convention is to modify the AOPRMS array in
+place, for the perl API we accept the AOPRMS array but return the
+updated version.
+
+  @aoprms = Astro::PAL::palAoppat( $date, \@aoprms );
+  @aoprms = Astro::PAL::palAoppat( $date, @aoprms );
+
+=cut
+
+sub palAoppat {
+  croak 'Usage: palAoppat( date, @aoprms )'
+    unless @_ > 1;
+
+  my $date = shift;
+
+  my @aoprms;
+  if (@_ > 1) {
+    @aoprms = @_;
+  } else {
+    @aoprms = @{$_[0]};
+  }
+
+  croak "palAoppat: Need 14 elements in star-independent apparent to observed array"
+    unless @aoprms == 14;
+
+  $aoprms[13] = pal_Aoppat( $date, $aoprms[12] );
+
+  return @aoprms;
+
+}
+
+
+# palAoppat C interface requires the full @AOPRMS array and simply updates
+# element 13 based on element 12.
+
+=back
 
 =head2 Constants
 
@@ -500,6 +583,7 @@ The PAL library is available from Starlink.
 
 =head1 COPYRIGHT
 
+Copyright (C) 2014 Tim Jenness
 Copyright (C) 2012 Tim Jenness and the Science and Technology Facilities
 Council.
 

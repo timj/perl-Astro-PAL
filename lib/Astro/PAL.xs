@@ -1,9 +1,9 @@
 /*        -*- C -*-
 
-  perl-PAL glue 
+  perl-PAL glue
                                         t.jenness@jach.hawaii.edu
 
-  Copyright (C) 2012 Tim Jenness.  All rights reserved.
+  Copyright (C) 2012, 2014 Tim Jenness.  All rights reserved.
 
   This program is free software; you can redistribute it and/or
   modify it under the terms of the GNU General Public License as
@@ -123,6 +123,110 @@ palAmpqk(ra, da, amprms)
   palAmpqk(ra, da, amprms, &rm, &dm);
   XPUSHs(sv_2mortal(newSVnv(rm)));
   XPUSHs(sv_2mortal(newSVnv(dm)));
+
+void
+palAop(rap,dap,date,dut,elongm,phim,hm,xp,yp,tdk,pmb,rh,wl,tlr)
+  double rap
+  double dap
+  double date
+  double dut
+  double elongm
+  double phim
+  double hm
+  double xp
+  double yp
+  double tdk
+  double pmb
+  double rh
+  double wl
+  double tlr
+ PREINIT:
+  double aob;
+  double zob;
+  double hob;
+  double dob;
+  double rob;
+ PPCODE:
+  palAop(rap,dap,date,dut,elongm,phim,hm,xp,yp,tdk,pmb,rh,wl,tlr,&aob,&zob,&hob,&dob,&rob);
+  XPUSHs(sv_2mortal(newSVnv(aob)));
+  XPUSHs(sv_2mortal(newSVnv(zob)));
+  XPUSHs(sv_2mortal(newSVnv(hob)));
+  XPUSHs(sv_2mortal(newSVnv(dob)));
+  XPUSHs(sv_2mortal(newSVnv(rob)));
+
+void
+palAoppa(date,dut,elongm,phim,hm,xp,yp,tdk,pmb,rh,wl,tlr)
+  double date
+  double dut
+  double elongm
+  double phim
+  double hm
+  double xp
+  double yp
+  double tdk
+  double pmb
+  double rh
+  double wl
+  double tlr
+ PREINIT:
+  double aoprms[14];
+  int i;
+ PPCODE:
+  palAoppa(date,dut,elongm,phim,hm,xp,yp,tdk,pmb,rh,wl,tlr,aoprms);
+  RETVEC( aoprms, 14, nv );
+
+# Documented to update element 13 of AOPRMS by using
+# the information in element 12. To make things easy in the XS
+# layer we do all this on the perl side and just pass the
+# relevant information in.
+
+void
+pal_Aoppat(date, elem12)
+  double date
+  double elem12
+ PREINIT:
+  double aoprms[14];
+  int i;
+ PPCODE:
+  aoprms[12] = elem12;
+  palAoppat(date, aoprms);
+  XPUSHs(sv_2mortal(newSVnv(aoprms[13])));
+
+void
+pal_Aopqk(rap, dap, aoprms)
+  double rap
+  double dap
+  double * aoprms
+ PREINIT:
+  double aob;
+  double zob;
+  double hob;
+  double dob;
+  double rob;
+ PPCODE:
+  palAopqk(rap, dap, aoprms, &aob,&zob,&hob,&dob,&rob);
+  XPUSHs(sv_2mortal(newSVnv(aob)));
+  XPUSHs(sv_2mortal(newSVnv(zob)));
+  XPUSHs(sv_2mortal(newSVnv(hob)));
+  XPUSHs(sv_2mortal(newSVnv(dob)));
+  XPUSHs(sv_2mortal(newSVnv(rob)));
+
+void
+palAtmdsp(tdk, pmb, rh, wl1, a1, b1, wl2)
+  double tdk
+  double pmb
+  double rh
+  double wl1
+  double a1
+  double b1
+  double wl2
+ PREINIT:
+  double a2;
+  double b2;
+ PPCODE:
+  palAtmdsp(tdk, pmb, rh, wl1, a1, b1, wl2, &a2, &b2);
+  XPUSHs(sv_2mortal(newSVnv(a2)));
+  XPUSHs(sv_2mortal(newSVnv(b2)));
 
 void
 palCaldj(iy, im, id)
@@ -1010,6 +1114,45 @@ palNutc(date)
   XPUSHs(sv_2mortal(newSVnv(eps0)));
 
 
+void
+palOap(type, ob1, ob2, date, dut, elongm, phim, hm, xp, yp, tdk, pmb, rh, wl, tlr)
+  char * type
+  double ob1
+  double ob2
+  double date
+  double dut
+  double elongm
+  double phim
+  double hm
+  double xp
+  double yp
+  double tdk
+  double pmb
+  double rh
+  double wl
+  double tlr
+ PREINIT:
+  double rap;
+  double dap;
+ PPCODE:
+  palOap(type, ob1, ob2, date, dut, elongm, phim, hm, xp, yp, tdk, pmb, rh, wl, tlr, &rap, &dap);
+  XPUSHs(sv_2mortal(newSVnv(rap)));
+  XPUSHs(sv_2mortal(newSVnv(dap)));
+
+void
+palOapqk(type, ob1, ob2, aoprms)
+  char * type
+  double ob1
+  double ob2
+  double * aoprms
+ PREINIT:
+  double rap;
+  double dap;
+ PPCODE:
+  palOapqk(type, ob1, ob2, aoprms, &rap, &dap);
+  XPUSHs(sv_2mortal(newSVnv(rap)));
+  XPUSHs(sv_2mortal(newSVnv(dap)));
+
 # Note that we have a perl layer on top to handle
 # the input arguments. Also note that we return
 # an empty list if status is not good.
@@ -1249,6 +1392,78 @@ palRdplan(date, np, elong, phi)
   XPUSHs(sv_2mortal(newSVnv(ra)));
   XPUSHs(sv_2mortal(newSVnv(dec)));
   XPUSHs(sv_2mortal(newSVnv(diam)));
+
+void
+palRefco(hm, tdk, pmb, rh, wl, phi, tlr, eps)
+  double hm
+  double tdk
+  double pmb
+  double rh
+  double wl
+  double phi
+  double tlr
+  double eps
+ PREINIT:
+  double refa;
+  double refb;
+ PPCODE:
+  palRefco(hm, tdk, pmb, rh, wl, phi, tlr, eps, &refa, &refb);
+  XPUSHs(sv_2mortal(newSVnv(refa)));
+  XPUSHs(sv_2mortal(newSVnv(refb)));
+
+void
+palRefcoq(tdk, pmb, rh, wl)
+  double tdk
+  double pmb
+  double rh
+  double wl
+ PREINIT:
+  double refa;
+  double refb;
+ PPCODE:
+  palRefcoq(tdk, pmb, rh, wl, &refa, &refb);
+  XPUSHs(sv_2mortal(newSVnv(refa)));
+  XPUSHs(sv_2mortal(newSVnv(refb)));
+
+void
+palRefro(zobs, hm, tdk, pmb, rh, wl, phi, tlr, eps)
+  double zobs
+  double hm
+  double tdk
+  double pmb
+  double rh
+  double wl
+  double phi
+  double tlr
+  double eps
+ PREINIT:
+  double ref;
+ PPCODE:
+  palRefro(zobs, hm, tdk, pmb, rh, wl, phi, tlr, eps, &ref);
+  XPUSHs(sv_2mortal(newSVnv(ref)));
+
+void
+palRefv(vu, refa, refb)
+  double * vu
+  double refa
+  double refb
+ PREINIT:
+   double vr[3];
+ PPCODE:
+  palRefv(vu, refa, refb, vr);
+  RETVEC( vr, 3, nv );
+
+
+void
+palRefz(zu, refa, refb)
+  double zu
+  double refa
+  double refb
+ PREINIT:
+  double zr;
+ PPCODE:
+  palRefz(zu, refa, refb, &zr);
+  XPUSHs(sv_2mortal(newSVnv(zr)));
 
 double
 palRverot(phi, ra, da, st)
