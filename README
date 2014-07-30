@@ -45,6 +45,7 @@ detail:
 Copyright
 ---------
 
+Copyright (C) 2014 Tim Jenness
 Copyright (C) 2012 Tim Jenness and the Science and Technology Facilities
 Council. All rights reserved.
 
@@ -80,3 +81,8 @@ Version History
 
 1.05 Update PAL to v0.1.4. Use a private isblank() function and do
      not attempt to use modern POSIX compiler settings.
+
+1.06 Update PAL to v0.5.0
+     - Now ships with ERFA v1.1.0 instead of SOFA, clarifying license anomalies.
+     Add support for palOap, palOapqk, palRefco, palRefcoq, palRefro,
+     palRefv, palRefz, palAop, palAoppa, palAoppat, palAopqk, palAtmdsp
