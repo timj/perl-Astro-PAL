@@ -33,7 +33,7 @@ my $build = Module::Build->new
    configure_requires => {
                           "Module::Build" => 0.3604, # c_source as array ref
                          },
-   c_source => ["src","sofasrc","palsrc"],
+   c_source => ["src","erfasrc","palsrc"],
    extra_compiler_flags => "-DNOSTARUTIL=1",
   );
 
