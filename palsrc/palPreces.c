@@ -34,6 +34,7 @@
 *     Precess coordinates using the appropriate system and epochs.
 
 *  Authors:
+*     PTW: Patrick T. Wallace
 *     TIMJ: Tim Jenness (JAC, Hawaii)
 *     {enter_new_authors_here}
 
@@ -53,9 +54,11 @@
 *  History:
 *     2012-03-02 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 1995 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
@@ -81,7 +84,7 @@
 */
 
 #include "pal.h"
-#include "sofa.h"
+#include "pal1sofa.h"
 
 #include <string.h>
 
@@ -104,12 +107,12 @@ void palPreces ( const char sys[3], double ep0, double ep1,
   }
 
   /* Convert RA,Dec to x,y,z */
-  iauS2c( *ra, *dc, v1 );
+  eraS2c( *ra, *dc, v1 );
 
   /* Precess */
-  iauRxp( pm, v1, v2 );
+  eraRxp( pm, v1, v2 );
 
   /* Back to RA,Dec */
-  iauC2s( v2, ra, dc );
-  *ra = iauAnp( *ra );
+  eraC2s( v2, ra, dc );
+  *ra = eraAnp( *ra );
 }

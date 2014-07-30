@@ -36,6 +36,7 @@
 
 *  Authors:
 *     TIMJ: Tim Jenness (JAC, Hawaii)
+*     PTW: Patrick T. Wallace
 *     {enter_new_authors_here}
 
 *  Notes:
@@ -44,9 +45,11 @@
 *  History:
 *     2012-03-02 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2001 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 

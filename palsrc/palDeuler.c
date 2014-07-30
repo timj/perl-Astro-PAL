@@ -59,27 +59,29 @@
 *  History:
 *     2012-02-08 (TIMJ):
 *        Initial version with documentation taken from Fortran SLA
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 1997 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
 *  Licence:
-*     This program is free software; you can redistribute it and/or
-*     modify it under the terms of the GNU General Public License as
-*     published by the Free Software Foundation; either version 3 of
-*     the License, or (at your option) any later version.
+*     This program is free software: you can redistribute it and/or
+*     modify it under the terms of the GNU Lesser General Public
+*     License as published by the Free Software Foundation, either
+*     version 3 of the License, or (at your option) any later
+*     version.
 *
-*     This program is distributed in the hope that it will be
-*     useful, but WITHOUT ANY WARRANTY; without even the implied
-*     warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
-*     PURPOSE. See the GNU General Public License for more details.
+*     This program is distributed in the hope that it will be useful,
+*     but WITHOUT ANY WARRANTY; without even the implied warranty of
+*     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*     GNU Lesser General Public License for more details.
 *
-*     You should have received a copy of the GNU General Public License
-*     along with this program; if not, write to the Free Software
-*     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301
-*     USA.
+*     You should have received a copy of the GNU Lesser General
+*     License along with this program.  If not, see
+*     <http://www.gnu.org/licenses/>.
 
 *  Bugs:
 *     {note_any_bugs_here}
@@ -87,7 +89,7 @@
 */
 
 #include "pal.h"
-#include "sofa.h"
+#include "pal1sofa.h"
 
 void
 palDeuler( const char *order, double phi, double theta, double psi,
@@ -96,7 +98,7 @@ palDeuler( const char *order, double phi, double theta, double psi,
   double rotations[3];
 
   /* Initialise rmat */
-  iauIr( rmat );
+  eraIr( rmat );
 
   /* copy the rotations into an array */
   rotations[0] = phi;
@@ -110,19 +112,19 @@ palDeuler( const char *order, double phi, double theta, double psi,
     case 'X':
     case 'x':
     case '1':
-      iauRx( rotations[i], rmat );
+      eraRx( rotations[i], rmat );
       break;
 
     case 'Y':
     case 'y':
     case '2':
-      iauRy( rotations[i], rmat );
+      eraRy( rotations[i], rmat );
       break;
 
     case 'Z':
     case 'z':
     case '3':
-      iauRz( rotations[i], rmat );
+      eraRz( rotations[i], rmat );
       break;
 
     default:

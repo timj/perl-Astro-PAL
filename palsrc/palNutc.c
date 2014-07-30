@@ -34,7 +34,7 @@
 *     {enter_new_authors_here}
 
 *  Notes:
-*     - Calls iauObl06 and iauNut06a and therefore uses the IAU 206
+*     - Calls eraObl06 and eraNut06a and therefore uses the IAU 206
 *       precession/nutation model.
 *     - Note the change from SLA/F regarding the date. TT is used
 *       rather than TDB.
@@ -42,6 +42,7 @@
 *  History:
 *     2012-03-05 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
@@ -71,9 +72,9 @@
 
 #include "pal.h"
 #include "palmac.h"
-#include "sofa.h"
+#include "pal1sofa.h"
 
 void palNutc( double date, double * dpsi, double *deps, double *eps0 ) {
-  iauNut06a( PAL__MJD0, date, dpsi, deps );
-  *eps0 = iauObl06( PAL__MJD0, date );
+  eraNut06a( PAL__MJD0, date, dpsi, deps );
+  *eps0 = eraObl06( PAL__MJD0, date );
 }

@@ -77,9 +77,11 @@
 *  History:
 *     2012-03-09 (TIMJ):
 *        Initial version from the SLA/F implementation.
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 1999 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 

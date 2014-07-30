@@ -165,9 +165,11 @@
 *  History:
 *     2012-03-12 (TIMJ):
 *        Initial version taken directly from SLA/F.
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2002 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 

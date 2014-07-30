@@ -87,9 +87,11 @@
 *  History:
 *     2012-03-12 (TIMJ):
 *        Initial version direct conversion of SLA/F.
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2005 Patrick T. Wallace
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
@@ -119,7 +121,7 @@
 #include "pal.h"
 #include "palmac.h"
 
-#include "sofa.h"
+#include "pal1sofa.h"
 
 void palPlantu ( double date, double elong, double phi, const double u[13],
                  double *ra, double *dec, double *r, int *jstat ) {
@@ -153,8 +155,8 @@ void palPlantu ( double date, double elong, double phi, const double u[13],
 
   /* Precession and nutation to date */
   palPrenut( 2000.0, date, rmat );
-  iauRxp(rmat, v, vgp);
-  iauRxp( rmat, &(v[3]), &(vgp[3]) );
+  eraRxp(rmat, v, vgp);
+  eraRxp( rmat, &(v[3]), &(vgp[3]) );
 
   /* Geocentre to observer (date) */
   stl = palGmst( date - palDt( palEpj(date) ) / PAL__SPD ) + elong;
@@ -180,8 +182,8 @@ void palPlantu ( double date, double elong, double phi, const double u[13],
   }
 
   /* To RA,Dec */
-  iauC2s( v, ra, dec );
-  *ra = iauAnp( *ra );
+  eraC2s( v, ra, dec );
+  *ra = eraAnp( *ra );
   *r = d;
 }
 

@@ -151,6 +151,7 @@
 *  History:
 *     2012-03-12 (TIMJ):
 *        Initial version direct conversion of SLA/F.
+*        Adapted with permission from the Fortran SLALIB library.
 *     2012-06-21 (TIMJ):
 *        Support a lack of copysign() function.
 *     2012-06-22 (TIMJ):
@@ -158,6 +159,7 @@
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2004 Patrick T. Wallace
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
@@ -198,11 +200,7 @@
 
 #include "pal.h"
 #include "palmac.h"
-#include "sofa.h"
-
-/* Only needed in one place */
-#define MAX(x, y) (((x) > (y)) ? (x) : (y))
-#define MIN(x, y) (((x) < (y)) ? (x) : (y))
+#include "pal1sofa.h"
 
 /* copysign is C99 */
 #if HAVE_COPYSIGN
@@ -398,7 +396,7 @@ void palPertue( double date, double u[13], int *jstat ) {
 
       /*        Use the acceleration to decide how big a timestep can be tolerated. */
       if (W != 0.0) {
-        TS = MIN(TSMAX,MAX(TSMIN,TSC/W));
+        TS = DMIN(TSMAX,DMAX(TSMIN,TSC/W));
       } else {
         TS = TSMAX;
       }
@@ -545,7 +543,7 @@ void palPertue( double date, double u[13], int *jstat ) {
           /*              Moon: position. */
           palPrec(palEpj(T),2000.0,PMAT);
           palDmoon(T,PVM);
-          iauRxp(PMAT,PVM,PM);
+          eraRxp(PMAT,PVM,PM);
           for (I=0; I<3; I++) {
             RHO[I] = PM[I]+PE[I];
           }

@@ -60,6 +60,8 @@
 *  History:
 *     2012-03-08 (TIMJ):
 *        Initial version based on strtod
+*        Adapted with permission from the Fortran SLALIB library
+*        although this is a completely distinct implementation of the SLA API.
 *     2012-06-21 (TIMJ):
 *        Provide a backup for missing copysign.
 *     2012-06-22 (TIMJ):
@@ -132,9 +134,9 @@ static int ISBLANK( int c ) {
 #endif
 
 /* We prefer to use the starutil package */
-#if NOSTARUTIL
-#else
+#if HAVE_STAR_UTIL_H
 # include "star/util.h"
+#else
 #endif
 
 void palDfltin( const char * string, int *nstrt,
@@ -172,12 +174,16 @@ void palDfltin( const char * string, int *nstrt,
 #endif
 
   /* Correct for SLA use of fortran convention */
-#if NOSTARUTIL
+#if HAVE_STAR_UTIL_H
+  star_strlcpy( tempbuf, &(string[*nstrt-1]), sizeof(tempbuf) );
+#else
+# if HAVE_STRLCPY
+  strlcpy( tempbuf, &(string[*nstrt-1]), sizeof(tempbuf) );
+# else
   /* Use standard C interface */
   strncpy( tempbuf, &(string[*nstrt-1]), sizeof(tempbuf));
   tempbuf[sizeof(tempbuf)-1] = '\0';
-#else
-  star_strlcpy( tempbuf, &(string[*nstrt-1]), sizeof(tempbuf) );
+# endif
 #endif
 
   /* Convert d or D to E */

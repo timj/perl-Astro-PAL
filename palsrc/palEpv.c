@@ -37,12 +37,14 @@
 *     {enter_new_authors_here}
 
 *  Notes:
-*     - See iauEpv00 for details on accuracy
-*     - Note that the status argument from iauEpv00 is ignored
+*     - See eraEpv00 for details on accuracy
+*     - Note that the status argument from eraEpv00 is ignored
 
 *  History:
 *     2012-03-12 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library
+*        but now mainly calls SOFA routines.
 *     {enter_further_changes_here}
 
 *  Copyright:
@@ -72,7 +74,7 @@
 
 #include "palmac.h"
 #include "pal.h"
-#include "sofa.h"
+#include "pal1sofa.h"
 
 void palEpv( double date, double ph[3], double vh[3],
              double pb[3], double vb[3] ) {
@@ -81,7 +83,7 @@ void palEpv( double date, double ph[3], double vh[3],
   double pvh[2][3];
   double pvb[2][3];
 
-  iauEpv00( PAL__MJD0, date, pvh, pvb );
+  eraEpv00( PAL__MJD0, date, pvh, pvb );
 
   /* Copy into output arrays */
   for (i=0; i<3; i++) {

@@ -42,15 +42,18 @@
 *     palPvobs.
 
 *  Authors:
+*     PTW: Patrick T. Wallace
 *     TIMJ: Tim Jenness (JAC, Hawaii)
 *     {enter_new_authors_here}
 
 *  History:
 *     2012-03-02 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 1995 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 

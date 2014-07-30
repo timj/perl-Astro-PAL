@@ -163,9 +163,11 @@
 *  History:
 *     2012-03-09 (TIMJ):
 *        Initial version converted from SLA/F.
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2005 Patrick T. Wallace
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
@@ -192,7 +194,7 @@
 
 #include <math.h>
 
-#include "sofa.h"
+#include "pal1sofa.h"
 #include "pal.h"
 #include "palmac.h"
 
@@ -381,15 +383,15 @@ void palPv2el ( const double pv[6], double date, double pmass, int jformr,
   /*  Return the appropriate set of elements. */
   *jform = JF;
   *orbinc = OI;
-  *anode = iauAnp(BIGOM);
+  *anode = eraAnp(BIGOM);
   *e = ECC;
   if (JF == 1) {
-    *perih = iauAnp(PL);
-    *aorl = iauAnp(EL);
+    *perih = eraAnp(PL);
+    *aorl = eraAnp(EL);
     *dm = DN;
   } else {
-    *perih = iauAnp(OM);
-    if (JF == 2) *aorl = iauAnp(AM);
+    *perih = eraAnp(OM);
+    if (JF == 2) *aorl = eraAnp(AM);
   }
   if (JF != 3) {
     *epoch = date;

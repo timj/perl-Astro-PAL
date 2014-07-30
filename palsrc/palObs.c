@@ -82,6 +82,7 @@
 
 
 *  Authors:
+*     PTW: Patrick T. Wallace
 *     TIMJ: Tim Jenness (JAC, Hawaii)
 *     {enter_new_authors_here}
 
@@ -95,10 +96,15 @@
 *     2012-03-06 (TIMJ):
 *        Initial version containing entries from SLA/F as of 15 March 2002
 *        with a 2008 tweak to the JCMT GPS position.
+*        Adapted with permission from the Fortran SLALIB library.
+*     2014-04-08 (TIMJ):
+*        Add APEX and NANTEN2
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2002 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
+*     Copyright (C) 2014 Cornell University.
 *     All Rights Reserved.
 
 *  Licence:
@@ -122,24 +128,27 @@
 *-
 */
 
+#if HAVE_CONFIG_H
+#  include <config.h>
+#endif
+
 #include <string.h>
 
-/* We prefer to use the starutil package. This compiler option is for
-   standalone builds where starutil may not be available. This would
-   require additions to the configure script to set automatically.
-*/
-#if NOSTARUTIL
-
+/* We prefer to use the starutil package. */
+#if HAVE_STAR_UTIL_H
+#include "star/util.h"
+#else
 /* This version is just a straight copy without putting ellipsis on the end. */
 static void star__strellcpy( char * dest, const char * src, size_t size ) {
+# if HAVE_STRLCPY
+  strlcpy( dest, src, size );
+# else
   strncpy( dest, src, size );
   dest[size-1] = '\0';
+# endif
 }
 
 #define star_strellcpy(dest, src, size) star__strellcpy(dest, src, size)
-
-#else
-#include "star/util.h"
 #endif
 
 #include "pal.h"
@@ -849,6 +858,24 @@ int palObs( size_t n, const char * c,
       2408E0,
       "MAGELLAN2",
       "Magellan 2, 6.5m, Las Campanas"
+    },
+    /* APEX - Atacama Pathfinder EXperiment, Llano de Chajnantor    APEX */
+    /* (APEX web site) */
+    {
+      WEST(67,45,33.0),
+      SOUTH(23,0,20.8),
+      5105E0,
+      "APEX",
+      "APEX 12m telescope, Llano de Chajnantor"
+    },
+    /* NANTEN2 Submillimeter Observatory, 4m telescope Atacame desert NANTEN2 */
+    /* (NANTEN2 web site) */
+    {
+      WEST(67,42,8.0),
+      SOUTH(22,57,47.0),
+      4865E0,
+      "NANTEN2",
+      "NANTEN2 4m telescope, Pampa la Bola"
     }
   };
 
@@ -875,7 +902,7 @@ int palObs( size_t n, const char * c,
 
   } else {
     /* Searching */
-    int i;
+    size_t i;
     for (i=0; i<NTEL; i++) {
       struct telData thistel = telData[i];
       if (strcasecmp( c, thistel.shortname) == 0) {

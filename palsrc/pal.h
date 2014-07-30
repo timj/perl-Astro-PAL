@@ -29,6 +29,7 @@
 *     2012-02-08 (TIMJ):
 *        Initial version. Define all SLA prototypes in PAL form even
 *        though none are implemented.
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
@@ -93,7 +94,7 @@ void palAoppa ( double date, double dut, double elongm, double phim,
 
 void palAoppat ( double date, double aoprms[14] );
 
-void palAopqk ( double rap, double dap, double aoprms[14],
+void palAopqk ( double rap, double dap, const double aoprms[14],
                 double *aob, double *zob, double *hob,
                 double *dob, double *rob );
 
@@ -371,7 +372,7 @@ void palOap ( const char *type, double ob1, double ob2, double date,
               double rh, double wl, double tlr,
               double *rap, double *dap );
 
-void palOapqk ( const char *type, double ob1, double ob2, double aoprms[14],
+void palOapqk ( const char *type, double ob1, double ob2, const double aoprms[14],
                 double *rap, double *dap );
 
 int palObs( size_t n, const char * c,

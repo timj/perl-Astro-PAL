@@ -30,20 +30,23 @@
 *     the IAU 2006 nutation model and palDeuler.
 
 *  Authors:
+*     PTW: Patrick T. Wallace
 *     TIMJ: Tim Jenness (JAC, Hawaii)
 *     {enter_new_authors_here}
 
 *  Notes:
-*     - Uses iauNut06a via palNutc
+*     - Uses eraNut06a via palNutc
 *     - The distinction between TDB and TT is negligible. For all but
 *       the most critical applications UTC is adequate.
 
 *  History:
 *     2012-03-07 (TIMJ):
 *        Initial version
+*        Adapted with permission from the Fortran SLALIB library.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 2005 Patrick T. Wallace
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 

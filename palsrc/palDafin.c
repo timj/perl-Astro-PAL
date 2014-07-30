@@ -38,6 +38,7 @@
 
 *  Authors:
 *     TIMJ: Tim Jenness (JAC, Hawaii)
+*     PTW: Patrick T. Wallace
 *     {enter_new_authors_here}
 
 *  Example:
@@ -91,9 +92,13 @@
 *  History:
 *     2012-03-08 (TIMJ):
 *        Initial version from SLA/F using Fortran documentation
+*        Adapted with permission from the Fortran SLALIB library.
+*     2012-10-17 (TIMJ):
+*        Fix range check on arcminute value.
 *     {enter_further_changes_here}
 
 *  Copyright:
+*     Copyright (C) 1996 Rutherford Appleton Laboratory
 *     Copyright (C) 2012 Science and Technology Facilities Council.
 *     All Rights Reserved.
 
@@ -120,7 +125,7 @@
 
 #include "pal.h"
 #include "palmac.h"
-#include "sofam.h"
+#include "pal1sofa.h"
 
 #include <math.h>
 
@@ -166,10 +171,10 @@ void palDafin ( const char *string, int *ipos, double *a, int *j ) {
         jf = -3;
 
       /* Tests for range and integrality */
-      } else if (jm == 0 && dint(deg) != deg) { /* Degrees */
+      } else if (jm == 0 && DINT(deg) != deg) { /* Degrees */
         jf = -1;
 
-      } else if (js == 0 && dint(arcmin) != arcmin) { /* Arcmin */
+      } else if ( (js == 0 && DINT(arcmin) != arcmin) || arcmin >= 60.0 ) { /* Arcmin */
         jf = -2;
 
       } else if (arcsec >= 60.0) { /* Arcsec */
