@@ -93,3 +93,5 @@ Version History
      - Now ships with ERFA v1.1.0 instead of SOFA, clarifying license anomalies.
      Add support for palOap, palOapqk, palRefco, palRefcoq, palRefro,
      palRefv, palRefz, palAop, palAoppa, palAoppat, palAopqk, palAtmdsp
+
+1.07 Fix build dependencies
