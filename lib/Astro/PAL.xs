@@ -95,6 +95,33 @@ palAirmas(zd)
   RETVAL
 
 void
+palAltaz(ha, dec, phi)
+  double ha
+  double dec
+  double phi
+ PREINIT:
+  double az;
+  double azd;
+  double azdd;
+  double el;
+  double eld;
+  double eldd;
+  double pa;
+  double pad;
+  double padd;
+ PPCODE:
+  palAltaz(ha, dec, phi, &az, &azd, &azdd, &el, &eld, &eldd, &pa, &pad, &padd);
+  XPUSHs(sv_2mortal(newSVnv(az)));
+  XPUSHs(sv_2mortal(newSVnv(azd)));
+  XPUSHs(sv_2mortal(newSVnv(azdd)));
+  XPUSHs(sv_2mortal(newSVnv(el)));
+  XPUSHs(sv_2mortal(newSVnv(eld)));
+  XPUSHs(sv_2mortal(newSVnv(eldd)));
+  XPUSHs(sv_2mortal(newSVnv(pa)));
+  XPUSHs(sv_2mortal(newSVnv(pad)));
+  XPUSHs(sv_2mortal(newSVnv(padd)));
+
+void
 palAmp(ra, da, date, eq)
   double ra
   double da
@@ -328,6 +355,25 @@ palDcc2s(v)
   palDcc2s(v, &a, &b);
   XPUSHs(sv_2mortal(newSVnv(a)));
   XPUSHs(sv_2mortal(newSVnv(b)));
+
+void
+palDcmpf(coeffs)
+  double * coeffs
+ PREINIT:
+  double xz;
+  double yz;
+  double xs;
+  double ys;
+  double perp;
+  double orient;
+ PPCODE:
+  palDcmpf(coeffs, &xz, &yz, &xs, &ys, &perp, &orient);
+  XPUSHs(sv_2mortal(newSVnv(xz)));
+  XPUSHs(sv_2mortal(newSVnv(yz)));
+  XPUSHs(sv_2mortal(newSVnv(xs)));
+  XPUSHs(sv_2mortal(newSVnv(ys)));
+  XPUSHs(sv_2mortal(newSVnv(perp)));
+  XPUSHs(sv_2mortal(newSVnv(orient)));
 
 
 # Returns a list for v[3]
@@ -723,6 +769,19 @@ palEcmat(date)
   palEcmat(date, rmat);
   RETMATRIX(rmat);
 
+void
+palEcleq(dl, db, date)
+  double dl
+  double db
+  double date
+ PREINIT:
+  double dr;
+  double dd;
+ PPCODE:
+  palEcleq(dl, db, date, &dr, &dd);
+  XPUSHs(sv_2mortal(newSVnv(dr)));
+  XPUSHs(sv_2mortal(newSVnv(dd)));
+
 # TODO: palEl2ue goes here
 
 
@@ -931,6 +990,31 @@ palFk54z(r2000, d2000, bepoch)
   XPUSHs(sv_2mortal(newSVnv(dr1950)));
   XPUSHs(sv_2mortal(newSVnv(dd1950)));
 
+void
+palFitxy(itype, np, xye, xym)
+  int itype
+  int np
+  double * xye
+  double * xym
+ PREINIT:
+  int i;
+  double mxye[np][2];
+  double mxym[np][2];
+  double coeffs[6];
+  int j;
+  AV * pcoeffs;
+ PPCODE:
+  for (i = 0; i < np; i ++) {
+    mxye[i][0] = xye[2 * i];
+    mxye[i][1] = xye[2 * i + 1];
+    mxym[i][0] = xym[2 * i];
+    mxym[i][1] = xym[2 * i + 1];
+  }
+  palFitxy(itype, np, mxye, mxym, coeffs, &j);
+  pcoeffs = newAV();
+  unpack1D(newRV_noinc((SV*)pcoeffs), coeffs, 'd', 6);
+  XPUSHs(sv_2mortal(newSViv(j)));
+  XPUSHs(newRV_noinc((SV*)pcoeffs));
 
 void
 palGaleq(dl, db)
@@ -1031,6 +1115,20 @@ palIntin(string, nstrt)
   XPUSHs(sv_2mortal(newSViv(nstrt)));
   XPUSHs(sv_2mortal(newSViv(ireslt)));
   XPUSHs(sv_2mortal(newSViv(jflag)));
+
+void
+palInvf(fwds)
+  double * fwds
+ PREINIT:
+  double bkwds[6];
+  int j;
+  AV * pbkwds;
+ PPCODE:
+  palInvf(fwds, bkwds, &j);
+  pbkwds = newAV();
+  unpack1D(newRV_noinc((SV*)pbkwds), bkwds, 'd', 6);
+  XPUSHs(sv_2mortal(newSViv(j)));
+  XPUSHs(newRV_noinc((SV*)pbkwds));
 
 void
 palMap(rm, dm, pr, pd, px, rv, eq, date)
@@ -1192,6 +1290,15 @@ palPa(ha, dec, phi)
  OUTPUT:
   RETVAL
 
+void
+palPcd(disco, x, y)
+  double disco
+  double x
+  double y
+ PPCODE:
+  palPcd(disco, &x, &y);
+  XPUSHs(sv_2mortal(newSVnv(x)));
+  XPUSHs(sv_2mortal(newSVnv(y)));
 
 void
 palPertel(jform,date0,date1,epoch0,orbi0,anode0,perih0,aorq0,e0,am0)
@@ -1320,6 +1427,22 @@ palPm(r0,d0,pr,pd,px,rv,ep0,ep1)
   XPUSHs(sv_2mortal(newSVnv(d1)));
 
 void
+palPolmo(elongm, phim, xp, yp)
+  double elongm
+  double phim
+  double xp
+  double yp
+ PREINIT:
+  double elong;
+  double phi;
+  double daz;
+ PPCODE:
+  palPolmo(elongm, phim, xp, yp, &elong, &phi, &daz);
+  XPUSHs(sv_2mortal(newSVnv(elong)));
+  XPUSHs(sv_2mortal(newSVnv(phi)));
+  XPUSHs(sv_2mortal(newSVnv(daz)));
+
+void
 palPrebn(bep0, bep1)
   double bep0
   double bep1
@@ -1376,6 +1499,36 @@ palPvobs(p, h, stl)
  PPCODE:
   palPvobs(p, h, stl, pv);
   RETVEC(pv, 6, nv);
+
+void
+palPxy(np, xye, xym, coeffs)
+  int np
+  double * xye
+  double * xym
+  double * coeffs
+ PREINIT:
+  int i;
+  double mxye[np][2];
+  double mxym[np][2];
+  double xyp[np][2];
+  double xrms;
+  double yrms;
+  double rrms;
+  AV * pxyp;
+ PPCODE:
+  for (i = 0; i < np; i ++) {
+    mxye[i][0] = xye[2 * i];
+    mxye[i][1] = xye[2 * i + 1];
+    mxym[i][0] = xym[2 * i];
+    mxym[i][1] = xym[2 * i + 1];
+  }
+  palPxy(np, mxye, mxym, coeffs, xyp, &xrms, &yrms, &rrms);
+  pxyp = newAV();
+  unpack1D(newRV_noinc((SV*)pxyp), xyp, 'd', np * 2);
+  XPUSHs(newRV_noinc((SV*)pxyp));
+  XPUSHs(sv_2mortal(newSVnv(xrms)));
+  XPUSHs(sv_2mortal(newSVnv(yrms)));
+  XPUSHs(sv_2mortal(newSVnv(rrms)));
 
 void
 palRdplan(date, np, elong, phi)
@@ -1542,3 +1695,25 @@ palSupgal(dsl, dsb)
 # TODO: palUe2el
 
 # TODO: palUe2pv
+
+void
+palUnpcd(disco, x, y)
+  double disco
+  double x
+  double y
+ PPCODE:
+  palUnpcd(disco, &x, &y);
+  XPUSHs(sv_2mortal(newSVnv(x)));
+  XPUSHs(sv_2mortal(newSVnv(y)));
+
+void palXy2xy(x1, y1, coeffs)
+  double x1
+  double y1
+  double * coeffs
+ PREINIT:
+  double x2;
+  double y2;
+ PPCODE:
+  palXy2xy(x1, y1, coeffs, &x2, &y2);
+  XPUSHs(sv_2mortal(newSVnv(x2)));
+  XPUSHs(sv_2mortal(newSVnv(y2)));
