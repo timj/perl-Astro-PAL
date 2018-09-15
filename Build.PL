@@ -24,7 +24,7 @@ my $build = $class->new
   (
    module_name => "Astro::PAL",
    abstract_from => $file,
-   license => "gpl",
+   license => "gpl3",
    author => [
               'Tim Jenness <tjenness@cpan.org>',
              ],

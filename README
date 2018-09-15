@@ -93,3 +93,7 @@ Version History
      - Now ships with ERFA v1.1.0 instead of SOFA, clarifying license anomalies.
      Add support for palOap, palOapqk, palRefco, palRefcoq, palRefro,
      palRefv, palRefz, palAop, palAoppa, palAoppat, palAopqk, palAtmdsp
+
+1.08 Update PAL to v0.9.9 and ERFA to v1.4.0
+     Add support for palAltaz, palDcmpf, palEcleq, palFitxy, palInvf,
+     palPcd, palPolmo, palPxy, palUnpcd and palXy2xy.
