@@ -66,6 +66,17 @@
     }							\
   }
 
+/* Extract Perl array into 2D array */
+
+#define ARRAYTOMAT(arr,mat,nr,nc) {                     \
+    int ii; int jj; SV ** elem;                         \
+    for (ii = 0; ii < nr; ii ++) {                      \
+      for (jj = 0; jj < nc; jj ++) {                    \
+        elem = av_fetch(arr, ii * nc + jj, 0);          \
+        mat[ii][jj] = SvNV(*elem);                      \
+      }                                                 \
+    }                                                   \
+  }
 
 
 MODULE = Astro::PAL   PACKAGE = Astro::PAL
@@ -991,25 +1002,21 @@ palFk54z(r2000, d2000, bepoch)
   XPUSHs(sv_2mortal(newSVnv(dd1950)));
 
 void
-palFitxy(itype, np, xye, xym)
+palFitxy(itype, xye, xym)
   int itype
-  int np
-  double * xye
-  double * xym
+  AV * xye
+  AV * xym
  PREINIT:
-  int i;
-  double mxye[np][2];
-  double mxym[np][2];
+  int np;
   double coeffs[6];
   int j;
   AV * pcoeffs;
  PPCODE:
-  for (i = 0; i < np; i ++) {
-    mxye[i][0] = xye[2 * i];
-    mxye[i][1] = xye[2 * i + 1];
-    mxym[i][0] = xym[2 * i];
-    mxym[i][1] = xym[2 * i + 1];
-  }
+  np = (av_len(xye) + 1) / 2;
+  double mxye[np][2];
+  double mxym[np][2];
+  ARRAYTOMAT(xye, mxye, np, 2);
+  ARRAYTOMAT(xym, mxym, np, 2);
   palFitxy(itype, np, mxye, mxym, coeffs, &j);
   pcoeffs = newAV();
   unpack1D(newRV_noinc((SV*)pcoeffs), coeffs, 'd', 6);
@@ -1501,27 +1508,23 @@ palPvobs(p, h, stl)
   RETVEC(pv, 6, nv);
 
 void
-palPxy(np, xye, xym, coeffs)
-  int np
-  double * xye
-  double * xym
+palPxy(xye, xym, coeffs)
+  AV * xye
+  AV * xym
   double * coeffs
  PREINIT:
-  int i;
-  double mxye[np][2];
-  double mxym[np][2];
-  double xyp[np][2];
+  int np;
   double xrms;
   double yrms;
   double rrms;
   AV * pxyp;
  PPCODE:
-  for (i = 0; i < np; i ++) {
-    mxye[i][0] = xye[2 * i];
-    mxye[i][1] = xye[2 * i + 1];
-    mxym[i][0] = xym[2 * i];
-    mxym[i][1] = xym[2 * i + 1];
-  }
+  np = (av_len(xye) + 1) / 2;
+  double mxye[np][2];
+  double mxym[np][2];
+  double xyp[np][2];
+  ARRAYTOMAT(xye, mxye, np, 2);
+  ARRAYTOMAT(xym, mxym, np, 2);
   palPxy(np, mxye, mxym, coeffs, xyp, &xrms, &yrms, &rrms);
   pxyp = newAV();
   unpack1D(newRV_noinc((SV*)pxyp), xyp, 'd', np * 2);

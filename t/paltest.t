@@ -213,8 +213,6 @@ print "# Refraction\n";
 }
 
 { # t_fitxy
-  my $npts = 8;
-
   my $xye = [
     -23.4, -12.1,   32.0,  -15.3,
      10.9,  23.7,   -3.0,   16.1,
@@ -231,7 +229,7 @@ print "# Refraction\n";
 
   # Fit a 4-coeff linear model to relate two sets of (x,y) coordinates.
 
-  my ($j, $coeffs) = palFitxy(4, $npts, $xye, $xym);
+  my ($j, $coeffs) = palFitxy(4, $xye, $xym);
 
   delta_within($coeffs->[0], -7.938263381515947e-3, 1e-12, "palFitxy: 4/0");
   delta_within($coeffs->[1], 1.004640925187200, 1e-12, "palFitxy: 4/1");
@@ -243,7 +241,7 @@ print "# Refraction\n";
 
   # Same but 6-coeff.
 
-  ($j, $coeffs) = palFitxy(6, $npts, $xye, $xym);
+  ($j, $coeffs) = palFitxy(6, $xye, $xym);
 
   delta_within($coeffs->[0], -2.617232551841476e-2, 1e-12, "palFitxy: 6/0");
   delta_within($coeffs->[1], 1.005634905041421, 1e-12, "palFitxy: 6/1");
@@ -255,7 +253,7 @@ print "# Refraction\n";
 
   # Compute predicted coordinates and residuals.
 
-  my ($xyp, $xrms, $yrms, $rrms) = palPxy($npts, $xye, $xym, $coeffs);
+  my ($xyp, $xrms, $yrms, $rrms) = palPxy($xye, $xym, $coeffs);
 
   delta_within($xyp->[0], -23.542232946855340, 1e-12, "palPxy: x0");
   delta_within($xyp->[1], -12.11293062297230597, 1e-12, "palPxy: y0");
