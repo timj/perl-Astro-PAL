@@ -12,6 +12,8 @@ my $class = Module::Build->subclass(code => << 'EOF');
         my %exclude = map {$_ => 1} qw[
             erfasrc/src/t_erfa_c.c
             erfasrc/src/erfaversion.c
+            palsrc/palVers.c
+            palsrc/palTest.c
         ];
         return () if exists $exclude{$_[0]};
         return $self->SUPER::compile_c(@_);
