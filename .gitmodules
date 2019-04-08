@@ -1,0 +1,3 @@
+[submodule "erfasrc"]
+	path = erfasrc
+	url = git://github.com/liberfa/erfa.git
