@@ -1,6 +1,6 @@
 [submodule "erfasrc"]
 	path = erfasrc
-	url = git://github.com/liberfa/erfa.git
+	url = https://github.com/liberfa/erfa.git
 [submodule "palsrc"]
 	path = palsrc
-	url = git://github.com/Starlink/pal.git
+	url = https://github.com/Starlink/pal.git
