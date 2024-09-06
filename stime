@@ -139,8 +139,9 @@ use Astro::PAL;
 use Getopt::Long;
 use Pod::Usage;
 
-my ($help, $man, $epoch);
+my ($help, $man, $epoch, $datetime);
 my $status = GetOptions("epoch=s" => \$epoch,
+                        "datetime=s" => \$datetime,
                         "help"    => \$help,
                         "man"     => \$man,
                        );
@@ -161,8 +162,19 @@ my @month   = ("Jan", "Feb", "Mar", "Apr", "May", "Jun",
 # Get the current DATE and TIME.
 # Use time variable to get for use in gmtime as well.
 # Can be overridden from the command line using -epoch
-my $time = (defined $epoch ? $epoch : time());
-
+my $time;
+if (defined $epoch) {
+    $time = $epoch;
+}
+elsif (defined $datetime) {
+    require DateTime;
+    require DateTime::Format::ISO8601;
+    my $dt = DateTime::Format::ISO8601->parse_datetime($datetime);
+    $time = $dt->epoch;
+}
+else {
+    $time = time();
+}
 
 my ($ss, $mm, $hr, $md, $mo, $yr, $wd, $yd, $isdst) = localtime($time);
 $yr += 1900;
