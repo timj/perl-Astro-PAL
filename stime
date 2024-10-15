@@ -183,7 +183,7 @@ $yr += 1900;
 my ($us, $um, $uh, $umd, $umo, $uyr, $uwd, $uyd, $isdst) = gmtime($time);
 $uyr += 1900;
 
-# Get Local Sidereal Time and Modified Julia date: LST and MJD
+# Get Local Sidereal Time and Modified Julian Date: LST and MJD
 # Using the actual UT time from above [not current]
 my ($lst, $mjd) = Astro::PAL::ut2lst_tel($uyr,($umo+1),$umd,$uh,$um,$us,$tel);
 # Convert LST to HMS from radians
